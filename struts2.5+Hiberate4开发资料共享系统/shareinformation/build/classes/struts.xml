@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+    <struts>
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+    <constant name="struts.multipart.maxSize" value="90000000"/> <!-- 设置文件上传的最大大小  如果不设置默认为2mb  超过就无法上传 -->
+    	<package name="all" abstract="true" extends="struts-default">
+    		<interceptors>
+    			<interceptor name="logininterceptor" class="datacaiji.interceptor.LoginInterceptor"/>
+    			<interceptor-stack name="st">
+    				<interceptor-ref name="logininterceptor"/>
+    				<interceptor-ref name="defaultStack"/>
+    			</interceptor-stack>
+    		</interceptors>
+    		<default-interceptor-ref name="st"/>
+    		<global-results>
+    			<result name="login">/login.jsp</result>
+    		</global-results>
+    	</package>
+    
+    	<package name="sss" namespace="/" extends="struts-default">
+    		<action name="login" class="datacaiji.service.Login">
+    			<result name="success">/main.jsp</result>
+    			<result name="error">/login.jsp</result>
+    		</action>
+    		
+    		<action name="register" class="datacaiji.service.Register">
+    			<result name="success">/login.jsp</result>
+    			<result name="error">/register.jsp</result>
+    		</action>
+    		
+    		<action name="registeraction" class="datacaiji.service.RegisterAction">
+    			<result name="success">/register.jsp</result>
+    		</action>
+    		
+    		<action name="comeimage" class="datacaiji.service.SetImageAction">
+    			<result name="success" type="stream">
+	    			<param name="contentType">image/jpge</param>
+	    			<param name="inputName">inputStream</param>
+    			</result>
+    		</action>
+    		
+    	</package>
+    	
+    	<package name="ss" namespace="/aa" extends="all">
+    		<action name="up" class="datacaiji.service.UploadAction">
+    			<result name="success">/file.jsp</result>
+    			<param name="savePath">F:/sharefile/</param>
+    		</action>
+    		
+    		<action name="informationAction" class="datacaiji.service.InformationAction">
+    			<result name="success">/pageInformation.jsp</result>
+    		</action>
+    		
+    		<action name="UserAction" class="datacaiji.service.UserAction">
+    			<result name="success">/pageUser.jsp</result>
+    		</action>
+    		
+    		<!-- <action name="admin" class="datacaiji.service.SuperAdministrator">
+    			<result name="information" type="redirect">informationAction.action重定向的action名</result>
+    			<result name="user" type="redirect">UserAction.action重定向的action名
+      			</result>
+    			<allowed-methods>addordeletAdministrator,deleteUser,deleteInformation</allowed-methods>
+    		</action> -->
+    		
+    		<action name="admin" class="datacaiji.service.SuperAdministrator">
+    			<result name="information" type="redirect">informationAction.action<!-- 重定向的action名 --></result>
+    			<result name="user" type="redirect">UserAction.action<!-- 重定向的action名 --></result>
+    			<allowed-methods>addordeletAdministrator,deleteUser,deleteInformation</allowed-methods>
+    		</action>
+    		
+    		<action name="download" class="datacaiji.service.DownloadAction">
+    			<param name="filePath">F:/sharefile/</param>
+    			<result name="success" type="stream">
+    				<param name="contentDisposition">attachment;filename="${filename}"</param>  <!-- 指定文件名为源文件的名字 -->
+    				<param name="inputName">mm</param>
+    			</result>
+    			<result name="error">/pageInformation.jsp</result>
+    		</action>
+    	</package>
+    	
+    	<!-- <package name="s" extends="json-default">
+    		<action name="userjson" class="datacaiji.service.AllUserAction">
+    			<result name="success" type="json"></result>
+    		</action>
+    		
+    		<action name="informationjson" class="datacaiji.service.AllFileAction">
+    			<result name="success" type="json"></result>
+    		</action>
+    	</package> -->
+    </struts>

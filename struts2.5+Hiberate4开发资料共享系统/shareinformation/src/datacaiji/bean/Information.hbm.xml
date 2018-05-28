@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+    
+    <hibernate-mapping>
+    	<class name="datacaiji.bean.Information" table="information">
+    		<id name="fileid" column="fileid" type="string">
+    			<generator class="assigned"/>
+    		</id>
+    		<property name="filename" column="filename"/>
+    		<property name="filesize" column="filesize"/>
+    		<property name="path" column="path"/>
+    		<property name="frequency" column="frequency" type="integer"/>
+    	</class>
+    </hibernate-mapping>
